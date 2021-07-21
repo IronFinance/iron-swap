@@ -15,7 +15,7 @@ contract IronSwap is OwnerPausable, ReentrancyGuard, Initializable, IIronSwap {
 
     /// constants
     uint256 public constant MIN_RAMP_TIME = 1 days;
-    uint256 public constant MAX_A = 1e10; // max_a with precision
+    uint256 public constant MAX_A = 1e6;
     uint256 public constant MAX_A_CHANGE = 10;
     uint256 public constant MAX_ADMIN_FEE = 1e10; // 100%
     uint256 public constant MAX_SWAP_FEE = 1e8; // 1%
@@ -282,7 +282,7 @@ contract IronSwap is OwnerPausable, ReentrancyGuard, Initializable, IIronSwap {
 
     function stopRampA() external onlyOwner {
         require(swapStorage.futureATime > block.timestamp, "alreadyStopped");
-        uint256 currentA = swapStorage.getA();
+        uint256 currentA = swapStorage.getAPrecise();
 
         swapStorage.initialA = currentA;
         swapStorage.futureA = currentA;
